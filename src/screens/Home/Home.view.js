@@ -154,23 +154,18 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView>
       {isLoading ? (
-        <View
-          style={{
-            height: '95%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View style={styles.loadingContainer}>
           <ActivityIndicator size={20} />
           <Label text="Loading ..." />
         </View>
       ) : (
         <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={styles.heroSection}>
             <Label text="TODO LIST !!" style={styles.label} textStyles={styles.labelText} />
             <Button text="↪" onPress={() => handleLogout()} textStyles={styles.buttonText} />
           </View>
 
-          <View style={{ marginTop: 50, flexDirection: 'row', justifyContent: 'center' }}>
+          <View style={styles.inputContainer}>
             <InputText
               onChange={(txt) => {
                 setTextInput(txt);
@@ -183,18 +178,11 @@ const Home = ({ navigation }) => {
                 handleAddUpdate();
               }}
               text={isUpdate ? 'Update' : '➕'}
-              buttonStyle={{ backgroundColor: '#1AA7EC', marginLeft: 10 }}
+              buttonStyle={styles.addButton}
               // textStyles={styles.buttonText}
             />
           </View>
-          <View
-            style={{
-              height: '70%',
-              marginTop: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#bbafaf',
-            }}>
+          <View style={styles.flatlistContainer}>
             <FlatList
               style={{ width: '100%' }}
               data={task}
@@ -204,12 +192,7 @@ const Home = ({ navigation }) => {
               }}
               ListHeaderComponent={() => {
                 return (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      backgroundColor: '#1AA7EC',
-                      justifyContent: 'space-evenly',
-                    }}>
+                  <View style={styles.flatListHeader}>
                     <Label text="Name" />
                     <Label text="Status" />
                     <Label text="Actions" />
@@ -218,23 +201,13 @@ const Home = ({ navigation }) => {
               }}
               renderItem={({ item }) => {
                 return (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-around',
-                      backgroundColor: '#b2b6e7',
-                    }}>
-                    <Text style={{ width: '30%', textAlign: 'center' }}>{item?.task}</Text>
-                    <Text style={{ width: '30%', textAlign: 'center' }}>
-                      {item?.is_complete ? 'Done' : 'Pending'}
-                    </Text>
-                    <View
-                      style={{
-                        width: '30%',
-                        flexDirection: 'row',
-                        justifyContent: 'space-evenly',
-                      }}>
+                  <View style={styles.flatlistItemContainer}>
+                    <Label text={item?.task} style={styles.flatlistItem} />
+                    <Label
+                      text={item?.is_complete ? 'Done' : 'Pending'}
+                      style={styles.flatlistItem}
+                    />
+                    <View style={styles.actionButtonContainer}>
                       <Button
                         textStyles={{ fontSize: 15 }}
                         text="✏️"
@@ -258,6 +231,38 @@ const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  actionButtonContainer: {
+    width: '30%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  flatlistItem: { width: '30%', textAlign: 'center' },
+  flatlistItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#b2b6e7',
+  },
+  flatListHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#1AA7EC',
+    justifyContent: 'space-evenly',
+  },
+  flatlistContainer: {
+    height: '70%',
+    marginTop: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#bbafaf',
+  },
+  addButton: { backgroundColor: '#1AA7EC', marginLeft: 10 },
+  inputContainer: { marginTop: 50, flexDirection: 'row', justifyContent: 'center' },
+  heroSection: { flexDirection: 'row', justifyContent: 'space-between' },
+  loadingContainer: {
+    height: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   main: { backgroundColor: 'red' },
   label: { alignItems: 'flex-start' },
   labelText: { fontSize: 30, fontWeight: '800' },
